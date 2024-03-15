@@ -1,0 +1,38 @@
+th {
+    background: rgb(50,50,50);
+    color: white;
+    text-align: center;
+    border: 1px solid;
+}
+
+table {
+    width: auto;
+    height: auto;
+    margin: auto;
+    border-collapse: collapse; 
+}
+
+th, tr, td{
+    border: 1px solid black;
+}
+
+.name, .id{
+    text-align: left;
+}
+
+.assignment, .average {
+    text-align: center;
+    background-color: yellow;
+}
+
+
+tr:nth-child(even){
+    background: rgb(150, 150, 150);
+}
+
+input {
+    background: transparent;
+    border: none;
+    padding: none;
+    display: inline;
+}
