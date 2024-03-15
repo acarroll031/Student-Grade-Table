@@ -30,9 +30,8 @@ tr:nth-child(even){
     background: rgb(150, 150, 150);
 }
 
-input {
-    background: transparent;
-    border: none;
-    padding: none;
-    display: inline;
+.cellcount {
+    margin: auto;
+    text-align: center;
 }
+
