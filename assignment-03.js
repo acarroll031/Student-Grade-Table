@@ -112,12 +112,27 @@ $(document).ready(function(){
         if(!isNaN(value))
         {
             sum += parseFloat(value);
+            count++;
         }
-        count++;
+        
     })
     average = sum/count;
-    let avgID = "#" + id; // Add ' avg' to differentiate the class of the average cell;
+    let avgID = "#" + id; // Add '#' to indicate it is an id;
     $(avgID).text(average);
+    if(average < 60)
+    {
+        $(avgID).css({
+            "background" : "red",
+            "color" : "white",
+        })
+    }
+    else
+    {
+        $(avgID).css({
+            "background" : "white",
+            "color" : "black",
+        })
+    }
     }
 
 
