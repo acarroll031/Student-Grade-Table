@@ -1,8 +1,8 @@
-//TODO: make counter for unsubmitted assignments increase when cell changed to empty without going over the total number of cells
+//TODO: make counter for unsubmitted assignments not increase when a blank cell is clicked in and out of
 
 ////CHANGE GRADES////
 
-//TODO: change final grade (average column) between percentage, american letter grand and american gpa, when the header of the column is pressed
+
 
 ////ADD ROWS/COLUMNS////
 
@@ -20,9 +20,18 @@
 
 
 
-$(document).ready(function(){ //Wait till document has finished loading fully
+$(document).ready(function(){ //Wait until document has finished loading fully
     
     var unsubmitted = 50;
+    var totalCells = 50;
+
+    //Grade arrays of size 10 to start
+    var gradePercent = [,,,,,,,,,];
+    var gradeLetter = [,,,,,,,,,];
+    var gradeGPA = [,,,,,,,,,];
+
+    var currentGradePres = "percent";
+
     $('#unsubAss').text(unsubmitted);
 
     $(".assignment").focusout(function(){ //When cells of class 'assignment' (input cells) are click unselected
@@ -38,6 +47,10 @@ $(document).ready(function(){ //Wait till document has finished loading fully
             $(this).text("-"); //If cell is empty, set back to '-'
 
             unsubmitted++;
+            if(unsubmitted >= totalCells) //Stops count from increasing if nothing is changed
+            {
+                unsubmitted = totalCells;
+            }
 
             averageRow($(this).attr("name"))
         }
@@ -85,7 +98,7 @@ $(document).ready(function(){ //Wait till document has finished loading fully
         let average = 0.0;
         
         let rowClass = "." + name; //Add '.' to indicate it is a class
-        let avgID = "#" + name; // Add '#' to indicate it is an id;
+        let avgID = "#" + name; // Add '#' to indicate it is an id
         
         $(rowClass).each(function(){ //Iterate through each of the cells in the given row (by class)
 
@@ -106,8 +119,22 @@ $(document).ready(function(){ //Wait till document has finished loading fully
         }
         else //If the average is a valid number
         {
-            $(avgID).text(average); // Change text in average cell for this row
             $(avgID).css("text-align" , "right"); //Right align the number
+
+            gradeStore(average, name); //Store the average in the grade arrays
+
+            switch(currentGradePres){ //Based on what type of grade is being shown currently, update the cell
+                case "percent":
+                    $(avgID).text(gradePercent[name-1]);
+                    break;
+                case "letter":
+                    $(avgID).text(gradeLetter[name-1]);
+                    break;
+                case "gpa":
+                    $(avgID).text(gradeGPA[name-1]);
+                    break;
+            }
+
         }
     
         if(average < 60) //If avg less than 60 make cell red
@@ -136,7 +163,99 @@ $(document).ready(function(){ //Wait till document has finished loading fully
 
     }
 
+    function gradeStore(average, rowNumber){
 
+        let letter, gpa;
+
+        rowNumber -= 1; //removes 1 for array operations
+
+        // if(gradePercent[rowNumber] == null) gradePercent.push(average);
+        // else gradePercent[rowNumber] = average;
+        gradePercent[rowNumber] = average; //Puts the number into the corresponding index in the array
+        console.log(gradePercent);
+
+        ////Letter Grade
+        //Changes the letter based on the average percent grade
+        if(average >= 93 && average <= 100) letter = "A";
+        else if(average >= 90 && average <= 92) letter = "A-";
+        else if(average >= 87 && average <= 89) letter = "B+";
+        else if(average >= 83 && average <= 86) letter = "B";
+        else if(average >= 80 && average <= 82) letter = "B-";
+        else if(average >= 77 && average <= 79) letter = "C+";
+        else if(average >= 73 && average <= 76) letter = "C";
+        else if(average >= 70 && average <= 72) letter = "C-";
+        else if(average >= 67 && average <= 69) letter = "D+";
+        else if(average >= 63 && average <= 66) letter = "D";
+        else if(average >= 60 && average <= 62) letter = "D-";
+        else if(average < 60) letter = "F";
+
+
+        // if(gradeLetter[rowNumber] == null) gradeLetter.push(letter);
+        // else gradeLetter[rowNumber] = letter;
+        gradeLetter[rowNumber] = letter; //Puts the number into the corresponding index in the array
+        console.log(gradeLetter);
+
+        ////GPA
+        //Changes the gpa based on the average percent grade
+        if(average >= 93 && average <= 100) gpa = "4.0";
+        else if(average >= 90 && average <= 92) gpa = "3.7";
+        else if(average >= 87 && average <= 89) gpa = "3.3";
+        else if(average >= 83 && average <= 86) gpa = "3.0";
+        else if(average >= 80 && average <= 82) gpa = "2.7";
+        else if(average >= 77 && average <= 79) gpa = "2.3";
+        else if(average >= 73 && average <= 76) gpa = "2.0";
+        else if(average >= 70 && average <= 72) gpa = "1.7";
+        else if(average >= 67 && average <= 69) gpa = "1.3";
+        else if(average >= 63 && average <= 66) gpa = "1.0";
+        else if(average >= 60 && average <= 62) gpa = "0.7";
+        else if(average < 60) gpa = "0";
+
+        // if(gradeGPA[rowNumber] == null) gradeGPA.push(gpa);
+        // else gradeGPA[rowNumber] = gpa;
+        gradeGPA[rowNumber] = gpa; //Puts the number into the corresponding index in the array
+        console.log(gradeGPA);
+    }
+
+    $("#averageHead").click(function() {
+    
+            let gradeArray = [];
+            let count = 0;
+    
+            //Based on the current presentation of the grades, pressing the button will move to the next one
+            if(currentGradePres === "percent") 
+            {
+                gradeArray = gradeLetter; //Lets the blank array be the letter array
+
+                $("#averageHead").text("Average (Letter)") //Updates the text in the average column header
+
+                currentGradePres = "letter"; //Sets current grade presentation to letter
+            }
+            else if(currentGradePres === "letter") 
+            {
+                gradeArray = gradeGPA;
+
+                $("#averageHead").text("Average (4.0)")
+
+                currentGradePres = "gpa"
+            }
+            else if(currentGradePres === "gpa") 
+            {
+                gradeArray = gradePercent;
+
+                $("#averageHead").text("Average (%)")
+
+                currentGradePres = "percent";
+            }
+    
+            $(".average").each(function() { //Iterates through each of the cells in the column, changing each to the corresponding grade in the array
+    
+                if(gradeArray[count] != null) //Skips if there is no item in the array
+                {
+                    $(this).text(gradeArray[count]);
+                }
+                count++;
+            })
+    })
   });
 
 
