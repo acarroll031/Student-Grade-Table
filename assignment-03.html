@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="container">
-            <table>
+            <table id="gradeTable">
                 <tr>
                     <th>Student Name</th>
                     <th>Student ID</th>
@@ -52,7 +52,7 @@
                     <td class="average" id="3">-</td>
                 </tr>
                 <tr>
-                    <td class="name">John Snow</td>
+                    <td class="name">Jon Snow</td>
                     <td class="id">444444</td>
                     <td class="assignment 4" id="a1r4" name="4" contenteditable="true">-</td>
                     <td class="assignment 4" id="a2r4" name="4" contenteditable="true">-</td>
@@ -123,6 +123,9 @@
                 </tr>
             </table>
             <p class="cellcount">Unsubmitted Assignments: <span class="cellcount" id="unsubAss">0</span></p>
+            <button class="add" id="addRow" type="button">Add Row</button>
+            <button class="add" id="addCol" type="button">Add Column</button>
+
         </div>
     </body>
 </html>

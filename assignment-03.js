@@ -25,17 +25,21 @@ $(document).ready(function(){ //Wait until document has finished loading fully
     var unsubmitted = 50;
     var totalCells = 50;
 
+    var numRows = 10; //Number of rows (used for adding new rows and increasing ids)
+    var numCols = 5; //Number of assignment columns (used for adding new colums)
+
     //Grade arrays of size 10 to start
-    var gradePercent = [,,,,,,,,,];
-    var gradeLetter = [,,,,,,,,,];
-    var gradeGPA = [,,,,,,,,,];
+    var gradePercent = [];
+    var gradeLetter = [];
+    var gradeGPA = [];
 
     var currentGradePres = "percent";
 
     $('#unsubAss').text(unsubmitted);
 
-    $(".assignment").focusout(function(){ //When cells of class 'assignment' (input cells) are click unselected
+    $("#gradeTable").on("focusout", ".assignment", function(){ //When cells of class 'assignment' (input cells) are unselected
 
+        console.log("Running");
         var content = $(this).text();
 
         if( content === "" || content === "-") // If it is blank or '-'
@@ -46,11 +50,11 @@ $(document).ready(function(){ //Wait until document has finished loading fully
             });
             $(this).text("-"); //If cell is empty, set back to '-'
 
-            unsubmitted++;
-            if(unsubmitted >= totalCells) //Stops count from increasing if nothing is changed
-            {
-                unsubmitted = totalCells;
-            }
+            // unsubmitted++;
+            // if(unsubmitted >= totalCells) //Stops count from increasing if nothing is changed
+            // {
+            //     unsubmitted = totalCells;
+            // }
 
             averageRow($(this).attr("name"))
         }
@@ -255,6 +259,58 @@ $(document).ready(function(){ //Wait until document has finished loading fully
                 }
                 count++;
             })
+    })
+
+    $('#addRow').click(function () {
+        numRows++;
+
+        //Create a new row element
+        var newRow = $('<tr></tr>');
+
+        // Append first two cells to new row, name and student number cells always added
+        newRow.append('<td class="name" contenteditable="true"></td>');
+        newRow.append('<td class="id" contenteditable="true"></td>');
+
+        // Append assignment cells for the new row, adding the number of assignment cells needed depending on the number of columns
+        for (var i = 0; i < numCols; i++) {
+            newRow.append('<td class="assignment '+numRows+'" name="'+numRows+'" contenteditable="true">-</td>');
+        }
+
+        // Append the average cell for the new row
+        newRow.append('<td class="average" id="'+numRows+'">-</td>');
+
+        // Append the new row to the table
+        $("#gradeTable").append(newRow);
+
+        //Update total number of cells
+        let newTotalCells = numCols * numRows; //Find new number of cells
+        let cellDiff = newTotalCells - totalCells; //Find how many more cells there are
+
+        unsubmitted += cellDiff; //Increase the unsubmitted cell count by how many more cells there are
+        totalCells = newTotalCells //Set the total cell count to the new total cell count
+
+        $('#unsubAss').text(unsubmitted); //Change unsubmitted counter 
+    })
+
+    $('#addCol').click(function () {
+
+        numCols++;
+        $('<th>Assignment ' +numCols+'</th>').insertBefore('#averageHead');
+
+        var id = 0;
+        $('tr').each(function () {
+            $('<td class="assignment '+id+'"name="'+id+'" contenteditable="true">-</td>').insertBefore($(this).find('.average'));
+            id++;
+        });
+
+        //Update total number of cells
+        let newTotalCells = numCols * numRows; //Find new number of cells
+        let cellDiff = newTotalCells - totalCells; //Find how many more cells there are
+
+        unsubmitted += cellDiff; //Increase the unsubmitted cell count by how many more cells there are
+        totalCells = newTotalCells //Set the total cell count to the new total cell count
+
+        $('#unsubAss').text(unsubmitted); //Change unsubmitted counter 
     })
   });
 
