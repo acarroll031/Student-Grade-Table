@@ -5,11 +5,12 @@ th {
     border: 1px solid;
 }
 
-table {
-    width: auto;
+#gradeTable {
+    width: 100%;
     height: auto;
-    margin: auto;
+    /* margin: auto; */
     border-collapse: collapse; 
+    font-family: 'Courier New', Courier, monospace;
 }
 
 th, tr, td{
@@ -30,8 +31,36 @@ tr:nth-child(even){
     background: rgb(150, 150, 150);
 }
 
+
 .cellcount {
-    margin: auto;
-    text-align: center;
+
+    text-align: right;
+    position: relative;
+    display: inline-block;
+    margin-left: 15%;
+    margin-right: 15%;
+
+    font-family: 'Courier New', monospace;
 }
+
+.butt1 {
+
+    position: relative;
+    display: inline-block;
+    margin: auto;
+    margin-left: 5%;
+    margin-top: 10px;
+    font-family: 'Courier New', monospace
+}
+
+.butt2 {
+
+    position: relative;
+    display: inline-block;
+    margin: auto;
+    margin-right: 5%;
+    margin-top: 10px;
+    font-family: 'Courier New', monospace
+}
+
 

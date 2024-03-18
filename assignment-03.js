@@ -3,14 +3,8 @@
 ////CHANGE GRADES////
 
 
-
 ////ADD ROWS/COLUMNS////
 
-//TODO: add buttons to create rows and columns below the table
-
-//TODO: add functionality to create new row below the last row in the table
-
-//TODO: add functionality to create a new column between the last assignment column and the final grade column
 
 ////SAVE AND RESTORE TABLE////
 
@@ -22,6 +16,7 @@
 
 $(document).ready(function(){ //Wait until document has finished loading fully
     
+    //Sets values to default for 10 rows, 5 assignment columns
     var unsubmitted = 50;
     var totalCells = 50;
 
@@ -115,7 +110,8 @@ $(document).ready(function(){ //Wait until document has finished loading fully
             }
         })
 
-        average = sum/count; // Get the average of the row
+        average = Math.round(sum/count); // Get the average of the row
+
         
         if(isNaN(average)) //Catches problem when removing all values from row
         {
@@ -312,6 +308,28 @@ $(document).ready(function(){ //Wait until document has finished loading fully
 
         $('#unsubAss').text(unsubmitted); //Change unsubmitted counter 
     })
+
+    $('#save').click(function() {
+
+        // Save the HTML content of the table
+        var savedTableHTML = $('#gradeTable').html();
+   
+        // Store the saved table HTML in localStorage
+        localStorage.setItem('savedTableHTML', savedTableHTML);
+        // Optionally, store any other relevant data or state
+    });
+
+    $('#restore').click(function() {
+
+        // Retrieve the saved table HTML from localStorage
+        var savedTableHTML = localStorage.getItem('savedTableHTML');
+        if (savedTableHTML) { //If the save file exists
+            // Restore the table HTML
+            $('#gradeTable').html(savedTableHTML);
+        } else { //Else send error
+            alert('No saved data found.');
+        }
+    });
   });
 
 
