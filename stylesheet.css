@@ -1,3 +1,10 @@
+h1 {
+
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+    margin: auto;
+}
+
 th {
     background: rgb(50,50,50);
     color: white;
@@ -8,7 +15,6 @@ th {
 #gradeTable {
     width: 100%;
     height: auto;
-    /* margin: auto; */
     border-collapse: collapse; 
     font-family: 'Courier New', Courier, monospace;
 }
@@ -33,7 +39,6 @@ tr:nth-child(even){
 
 
 .cellcount {
-
     text-align: right;
     position: relative;
     display: inline-block;
@@ -44,22 +49,16 @@ tr:nth-child(even){
 }
 
 .butt1 {
-
     position: relative;
     display: inline-block;
-    margin: auto;
-    margin-left: 5%;
-    margin-top: 10px;
+    margin: 10px auto auto 5%;
     font-family: 'Courier New', monospace
 }
 
 .butt2 {
-
     position: relative;
     display: inline-block;
-    margin: auto;
-    margin-right: 5%;
-    margin-top: 10px;
+    margin: 10px 5% auto auto;
     font-family: 'Courier New', monospace
 }
 

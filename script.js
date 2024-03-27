@@ -1,41 +1,25 @@
-//TODO: make counter for unsubmitted assignments not increase when a blank cell is clicked in and out of
-
-////CHANGE GRADES////
-
-
-////ADD ROWS/COLUMNS////
-
-
-////SAVE AND RESTORE TABLE////
-
-//TODO: add buttoms to save current table layout and restore saved layout
-
-//TODO: add functionality to save table contents to be restored later (json??)
-
-
-
 $(document).ready(function(){ //Wait until document has finished loading fully
     
     //Sets values to default for 10 rows, 5 assignment columns
-    var unsubmitted = 50;
-    var totalCells = 50;
+    let unsubmitted = 50;
+    let totalCells = 50;
 
-    var numRows = 10; //Number of rows (used for adding new rows and increasing ids)
-    var numCols = 5; //Number of assignment columns (used for adding new colums)
+    let numRows = 10; //Number of rows (used for adding new rows and increasing ids)
+    let numCols = 5; //Number of assignment columns (used for adding new columns)
 
     //Grade arrays of size 10 to start
-    var gradePercent = [];
-    var gradeLetter = [];
-    var gradeGPA = [];
+    const gradePercent = [];
+    const gradeLetter = [];
+    const gradeGPA = [];
 
-    var currentGradePres = "percent";
+    let currentGradePres = "percent";
 
     $('#unsubAss').text(unsubmitted);
 
     $("#gradeTable").on("focusout", ".assignment", function(){ //When cells of class 'assignment' (input cells) are unselected
 
         console.log("Running");
-        var content = $(this).text();
+        const content = $(this).text();
 
         if( content === "" || content === "-") // If it is blank or '-'
         {
@@ -94,7 +78,7 @@ $(document).ready(function(){ //Wait until document has finished loading fully
         //Initialise variables
         let sum = 0;
         let count = 0;
-        let average = 0.0;
+        let average;
         
         let rowClass = "." + name; //Add '.' to indicate it is a class
         let avgID = "#" + name; // Add '#' to indicate it is an id
@@ -106,7 +90,7 @@ $(document).ready(function(){ //Wait until document has finished loading fully
             if(!isNaN(value)) //If the value in the cell is a number
             {
                 sum += parseFloat(value); //Add  its value to the sum variable
-                count++; //Incrament the count of cells to be averaged
+                count++; //Increment the count of cells to be averaged
             }
         })
 
@@ -152,7 +136,7 @@ $(document).ready(function(){ //Wait until document has finished loading fully
             })
         }
 
-        if(count == 0) //If there are no longer any cells with content (if all content is removed)
+        if(count === 0) //If there are no longer any cells with content (if all content is removed)
         {
             $(avgID).css({ //Reset to centre text align and yellow background
                 "textAlign": "center",
@@ -261,14 +245,14 @@ $(document).ready(function(){ //Wait until document has finished loading fully
         numRows++;
 
         //Create a new row element
-        var newRow = $('<tr></tr>');
+        const newRow = $('<tr></tr>');
 
         // Append first two cells to new row, name and student number cells always added
         newRow.append('<td class="name" contenteditable="true"></td>');
         newRow.append('<td class="id" contenteditable="true"></td>');
 
         // Append assignment cells for the new row, adding the number of assignment cells needed depending on the number of columns
-        for (var i = 0; i < numCols; i++) {
+        for (let i = 0; i < numCols; i++) {
             newRow.append('<td class="assignment '+numRows+'" name="'+numRows+'" contenteditable="true">-</td>');
         }
 
@@ -285,7 +269,7 @@ $(document).ready(function(){ //Wait until document has finished loading fully
         unsubmitted += cellDiff; //Increase the unsubmitted cell count by how many more cells there are
         totalCells = newTotalCells //Set the total cell count to the new total cell count
 
-        $('#unsubAss').text(unsubmitted); //Change unsubmitted counter 
+        $('#unsubAss').text(unsubmitted); //Change unsubmitted counter
     })
 
     $('#addCol').click(function () {
@@ -293,9 +277,9 @@ $(document).ready(function(){ //Wait until document has finished loading fully
         numCols++;
         $('<th>Assignment ' +numCols+'</th>').insertBefore('#averageHead');
 
-        var id = 0;
+        let id = 0;
         $('tr').each(function () {
-            $('<td class="assignment '+id+'"name="'+id+'" contenteditable="true">-</td>').insertBefore($(this).find('.average'));
+            $('<td class="assignment '+id+'" name="'+id+'" contenteditable="true">-</td>').insertBefore($(this).find('.average'));
             id++;
         });
 
@@ -306,14 +290,14 @@ $(document).ready(function(){ //Wait until document has finished loading fully
         unsubmitted += cellDiff; //Increase the unsubmitted cell count by how many more cells there are
         totalCells = newTotalCells //Set the total cell count to the new total cell count
 
-        $('#unsubAss').text(unsubmitted); //Change unsubmitted counter 
+        $('#unsubAss').text(unsubmitted); //Change unsubmitted counter
     })
 
     $('#save').click(function() {
 
         // Save the HTML content of the table
-        var savedTableHTML = $('#gradeTable').html();
-   
+        const savedTableHTML = $('#gradeTable').html();
+
         // Store the saved table HTML in localStorage
         localStorage.setItem('savedTableHTML', savedTableHTML);
         // Optionally, store any other relevant data or state
@@ -322,11 +306,11 @@ $(document).ready(function(){ //Wait until document has finished loading fully
     $('#restore').click(function() {
 
         // Retrieve the saved table HTML from localStorage
-        var savedTableHTML = localStorage.getItem('savedTableHTML');
+        const savedTableHTML = localStorage.getItem('savedTableHTML');
         if (savedTableHTML) { //If the save file exists
             // Restore the table HTML
             $('#gradeTable').html(savedTableHTML);
-        } else { //Else send error
+        } else { //Else send error 
             alert('No saved data found.');
         }
     });
